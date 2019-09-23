@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniGame", "MiniGame\MiniGame.csproj", "{3801A1EA-AC21-4363-975B-18DC55007082}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniGame.WinForms.UI", "MiniGame\MiniGame.WinForms.UI.csproj", "{3801A1EA-AC21-4363-975B-18DC55007082}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniGame.Logic", "MiniGame.Logic\MiniGame.Logic.csproj", "{3993FC8C-890C-48D9-B71B-1368605C2B00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{3801A1EA-AC21-4363-975B-18DC55007082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3801A1EA-AC21-4363-975B-18DC55007082}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3801A1EA-AC21-4363-975B-18DC55007082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3993FC8C-890C-48D9-B71B-1368605C2B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3993FC8C-890C-48D9-B71B-1368605C2B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3993FC8C-890C-48D9-B71B-1368605C2B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3993FC8C-890C-48D9-B71B-1368605C2B00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
