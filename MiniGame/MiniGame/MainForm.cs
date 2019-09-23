@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniGame.Logic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +18,7 @@ namespace MiniGame
         public MainForm()
         {
             InitializeComponent();
+            var gameMap = new GameMap(GameMap.MAX_SIZE);
             RenderHost = new RenderHost(5, 5, MainPictureBox.Width, MainPictureBox.Height);
         }
 
