@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniGame.WinForms.UI", "MiniGame\MiniGame.WinForms.UI.csproj", "{3801A1EA-AC21-4363-975B-18DC55007082}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniGame", "MiniGame\MiniGame.csproj", "{3801A1EA-AC21-4363-975B-18DC55007082}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniGame.Logic", "MiniGame.Logic\MiniGame.Logic.csproj", "{3993FC8C-890C-48D9-B71B-1368605C2B00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniGame.Logic", "MiniGame.Logic\MiniGame.Logic.csproj", "{3993FC8C-890C-48D9-B71B-1368605C2B00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
