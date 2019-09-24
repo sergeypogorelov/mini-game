@@ -11,5 +11,14 @@ namespace MiniGame.Logic.Entities.Cells
         {
 
         }
+
+        public override bool CanSwap(Cell cell)
+        {
+            if (cell == null)
+                throw new ArgumentNullException();
+
+            /// blocks cannot be moved
+            return false;
+        }
     }
 }

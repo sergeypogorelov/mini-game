@@ -19,5 +19,7 @@ namespace MiniGame.Logic.Entities
         {
             Type = type;
         }
+
+        public abstract bool CanSwap(Cell cell);
     }
 }

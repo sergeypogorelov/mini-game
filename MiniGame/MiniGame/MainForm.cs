@@ -19,7 +19,8 @@ namespace MiniGame
         {
             InitializeComponent();
             var gameMap = new GameMap(GameMap.MAX_SIZE);
-            RenderHost = new RenderHost(gameMap.Size, gameMap.Size, MainPictureBox.Width, MainPictureBox.Height);
+            gameMap.Swap(new Coordinate(0, 0), new Coordinate(1, 0));
+            RenderHost = new RenderHost(5, 5, MainPictureBox.Width, MainPictureBox.Height);
         }
 
         private void MainPictureBox_Paint(object sender, PaintEventArgs e)

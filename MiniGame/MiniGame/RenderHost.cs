@@ -101,18 +101,18 @@ namespace MiniGame
             _bitmapHost.MakeTransparent();
         }
 
-        public void Draw(Image image, int x, int y)
+        public void Draw(Image image, int row, int column)
         {
             if (image == null)
                 throw new ArgumentNullException();
 
-            if (x < 0 || x >= Width)
+            if (column < 0 || column >= Width)
                 throw new ArgumentOutOfRangeException();
 
-            if (y < 0 || y >= Height)
+            if (row < 0 || row >= Height)
                 throw new ArgumentOutOfRangeException();
 
-            var destRect = new Rectangle(x * CellWidth, y * CellHeight, CellWidth, CellHeight);
+            var destRect = new Rectangle(column * CellWidth, row * CellHeight, CellWidth, CellHeight);
             var srcRect = new Rectangle(0, 0, image.Width, image.Height);
 
             _graphicsHost.DrawImage(image, destRect, srcRect, GraphicsUnit.Pixel);
