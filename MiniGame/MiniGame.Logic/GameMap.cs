@@ -45,18 +45,17 @@ namespace MiniGame.Logic
             MAX_SIZE = Card.GetAllAvailableColors().Length * 2 - 1;
         }
 
-        public static Card[] GenerateAvailableCards(int gameMapSize, bool randomize = true)
+        public static bool CheckSize(int size)
         {
-            if (gameMapSize < MIN_SIZE)
+            return size >= MIN_SIZE && size <= MAX_SIZE && size % 2 != 0;
+        }
+
+        public static Card[] GenerateAvailableCards(int size, bool randomize = true)
+        {
+            if (!CheckSize(size))
                 throw new ArgumentOutOfRangeException();
 
-            if (gameMapSize > MAX_SIZE)
-                throw new ArgumentOutOfRangeException();
-
-            if (gameMapSize % 2 == 0)
-                throw new ArgumentException();
-
-            var countOfColumnsWithCards = gameMapSize / 2 + 1;
+            var countOfColumnsWithCards = size / 2 + 1;
 
             var allCardColors = Card.GetAllAvailableColors();
             var availableCardColors = allCardColors.Take(countOfColumnsWithCards).ToArray();
@@ -65,7 +64,7 @@ namespace MiniGame.Logic
 
             foreach (var cardColor in availableCardColors)
             {
-                for (var i = 0; i < gameMapSize; i++)
+                for (var i = 0; i < size; i++)
                 {
                     cards.Add(new Card(cardColor));
                 }
@@ -80,7 +79,9 @@ namespace MiniGame.Logic
             return cards.ToArray();
         }
 
-        public int Size { get { return _cells.GetLength(0); } }
+        public int Size { get { return Cells.GetLength(0); } }
+
+        public Cell[,] Cells { get; private set; }
 
         public GameMap(int size)
         {
@@ -94,14 +95,14 @@ namespace MiniGame.Logic
                 if (!CheckIfCoordinateIsValid(coordinate))
                     throw new ArgumentOutOfRangeException();
 
-                return _cells[coordinate.Row, coordinate.Column];
+                return Cells[coordinate.Row, coordinate.Column];
             }
             private set
             {
                 if (!CheckIfCoordinateIsValid(coordinate))
                     throw new ArgumentOutOfRangeException();
 
-                _cells[coordinate.Row, coordinate.Column] = value ?? throw new ArgumentNullException();
+                Cells[coordinate.Row, coordinate.Column] = value ?? throw new ArgumentNullException();
             }
         }
 
@@ -127,7 +128,7 @@ namespace MiniGame.Logic
             return (closestHorizontally || closestVertically) && closestHorizontally != closestVertically;
         }
 
-        public bool Swap(Coordinate coordinate1, Coordinate coordinate2)
+        public bool SwapCells(Coordinate coordinate1, Coordinate coordinate2)
         {
             if (coordinate1.Equals(coordinate2))
                 return false;
@@ -148,40 +149,32 @@ namespace MiniGame.Logic
             return true;
         }
 
-        private Cell[,] _cells;
-
         private void InitCells(int size)
         {
-            if (size < MIN_SIZE)
+            if (!CheckSize(size))
                 throw new ArgumentOutOfRangeException();
 
-            if (size > MAX_SIZE)
-                throw new ArgumentOutOfRangeException();
-
-            if (size % 2 == 0)
-                throw new ArgumentException();
-
-            _cells = new Cell[size, size];
+            Cells = new Cell[size, size];
 
             var cards = new Stack<Card>(GenerateAvailableCards(size));
 
-            for (var row = 0; row < _cells.GetLength(0); row++)
+            for (var row = 0; row < Cells.GetLength(0); row++)
             {
-                for (var column = 0; column < _cells.GetLength(1); column++)
+                for (var column = 0; column < Cells.GetLength(1); column++)
                 {
                     if (column % 2 == 0)
                     {
-                        _cells[row, column] = cards.Pop();
+                        Cells[row, column] = cards.Pop();
                     }
                     else
                     {
                         if (row % 2 == 0)
                         {
-                            _cells[row, column] = new Block();
+                            Cells[row, column] = new Block();
                         }
                         else
                         {
-                            _cells[row, column] = new EmptyCell();
+                            Cells[row, column] = new EmptyCell();
                         }
                     }
                 }

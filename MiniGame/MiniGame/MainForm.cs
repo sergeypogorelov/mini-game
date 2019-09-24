@@ -13,14 +13,17 @@ namespace MiniGame
 {
     public partial class MainForm : Form
     {
+        public const int GAME_MAP_SIZE = 5;
+
+        public Game Game { get; private set; }
+
         public RenderHost RenderHost { get; private set; }
 
         public MainForm()
         {
             InitializeComponent();
-            var gameMap = new GameMap(GameMap.MAX_SIZE);
-            gameMap.Swap(new Coordinate(0, 0), new Coordinate(1, 0));
-            RenderHost = new RenderHost(5, 5, MainPictureBox.Width, MainPictureBox.Height);
+            Game = new Game(GAME_MAP_SIZE);
+            RenderHost = new RenderHost(Game.Map.Size, Game.Map.Size, MainPictureBox.Width, MainPictureBox.Height);
         }
 
         private void MainPictureBox_Paint(object sender, PaintEventArgs e)
@@ -31,8 +34,7 @@ namespace MiniGame
 
         private void MainPictureBox_Click(object sender, EventArgs e)
         {
-            var image = Image.FromFile("./images/img.png");
-            RenderHost.Draw(image, 0, 4);
+            Game.CheckIfRiddleSolved();
             MainPictureBox.Refresh();
         }
     }
