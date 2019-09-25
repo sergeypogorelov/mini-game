@@ -8,19 +8,36 @@ using System.Threading.Tasks;
 
 namespace MiniGame
 {
+    public struct GameWrapperParams
+    {
+        public int GameCanvasWidth { get; set; }
+
+        public int GameCanvasHeight { get; set; }
+
+        public int LabelCanvasWidth { get; set; }
+
+        public int LabelCanvasHeight { get; set; }
+    }
+
     public class GameWrapper
     {
+        public const int LABEL_HEIGHT = 1;
+
         public Game Game { get; private set; }
 
-        public GameCanvas GameCanvas { get; private set; }
+        public GridCanvas GameCanvas { get; private set; }
 
-        public GameWrapper(Game game, int renderWidth, int renderHeight)
+        public GridCanvas LabelCanvas { get; private set; }
+
+        public GameWrapper(Game game, GameWrapperParams parameters)
         {
             Game = game ?? throw new ArgumentNullException();
-            GameCanvas = new GameCanvas(game.Map.Size, game.Map.Size, renderWidth, renderHeight);
+
+            GameCanvas = new GridCanvas(game.Map.Size, game.Map.Size, parameters.GameCanvasWidth, parameters.GameCanvasHeight);
+            LabelCanvas = new GridCanvas(game.Map.Size, LABEL_HEIGHT, parameters.LabelCanvasWidth, parameters.LabelCanvasHeight);
         }
 
-        public void Render(Graphics graphicsInstance)
+        public void RenderGame(Graphics graphicsInstance)
         {
             if (graphicsInstance == null)
                 throw new ArgumentNullException();
@@ -37,6 +54,23 @@ namespace MiniGame
             }
 
             GameCanvas.Render(graphicsInstance);
+        }
+
+        public void RenderLabel(Graphics graphicsInstance)
+        {
+            if (graphicsInstance == null)
+                throw new ArgumentNullException();
+
+            LabelCanvas.Clear();
+
+            var indexesOfColumnsWithCards = Enumerable.Range(0, Game.Map.Size).Where(i => i % 2 == 0).ToArray();
+            foreach (var index in indexesOfColumnsWithCards)
+            {
+                var image = CellAppearance.GetCellImage(Game.GoalCards[index / 2]);
+                LabelCanvas.Draw(image, 0, index);
+            }
+
+            LabelCanvas.Render(graphicsInstance);
         }
     }
 }

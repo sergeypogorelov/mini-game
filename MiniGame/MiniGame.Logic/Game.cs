@@ -11,12 +11,12 @@ namespace MiniGame.Logic
     {
         public GameMap Map { get; private set; }
 
+        public Card[] GoalCards { get; private set; }
+
         public Game(int mapSize)
         {
-            if (!GameMap.CheckSize(mapSize))
-                throw new ArgumentOutOfRangeException();
-
-            Map = new GameMap(mapSize);
+            InitMap(mapSize);
+            InitGoalCards();
         }
 
         public bool CheckIfRiddleSolved()
@@ -24,21 +24,44 @@ namespace MiniGame.Logic
             var indexesOfColumnsWithCards = Enumerable.Range(0, Map.Size).Where(index => index % 2 == 0).ToArray();
 
             var result = indexesOfColumnsWithCards.All(index => {
-                var columnWithCards = Enumerable.Range(0, Map.Cells.GetLength(0)).Select(row => Map.Cells[row, index]);
-                var firstCard = columnWithCards.First() as Card;
-                if (firstCard == null)
-                    return false;
+                var goalCard = GoalCards[index / 2];
+                var columnWithCards = Enumerable.Range(0, Map.Cells.GetLength(0)).Select(row => Map.Cells[row, index]).ToArray();
 
-                return columnWithCards.Skip(1).All(cell => {
+                return columnWithCards.All(cell => {
                     var card = cell as Card;
                     if (card == null)
                         return false;
 
-                    return card.Color == firstCard.Color;
+                    return card.Color == goalCard.Color;
                 });
             });
 
             return result;
+        }
+
+        private void InitMap(int mapSize)
+        {
+            if (!GameMap.CheckSize(mapSize))
+                throw new ArgumentOutOfRangeException();
+
+            Map = new GameMap(mapSize);
+        }
+
+        private void InitGoalCards()
+        {
+            GoalCards = GenerateGoalCards();
+        }
+
+        private Card[] GenerateGoalCards()
+        {
+            var random = new Random();
+            var countOfCardsToGenerate = Map.Size / 2 + 1;
+
+            return Card.GetAllAvailableColors()
+                .OrderBy(color => random.Next())
+                .Take(countOfCardsToGenerate)
+                .Select(color => new Card(color))
+                .ToArray();
         }
     }
 }

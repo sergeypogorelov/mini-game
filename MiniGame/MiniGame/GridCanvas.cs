@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MiniGame
 {
-    public class GameCanvas
+    public class GridCanvas
     {
         public static bool CheckRenderSize(int renderSize, int size)
         {
@@ -68,7 +68,7 @@ namespace MiniGame
             }
         }
 
-        public GameCanvas(int width, int height, int renderWidth, int renderHeight)
+        public GridCanvas(int width, int height, int renderWidth, int renderHeight)
         {
             Width = width;
             Height = height;
@@ -88,7 +88,7 @@ namespace MiniGame
 
         public void Clear()
         {
-            _bitmapInstance.MakeTransparent();
+            _graphicsInstane.Clear(Color.Transparent);
         }
 
         public void Draw(Image image, int row, int column)

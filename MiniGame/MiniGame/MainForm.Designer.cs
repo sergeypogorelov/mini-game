@@ -29,30 +29,43 @@
         private void InitializeComponent()
         {
             this.MainPictureBox = new System.Windows.Forms.PictureBox();
+            this.LabelPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LabelPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // MainPictureBox
             // 
-            this.MainPictureBox.Location = new System.Drawing.Point(12, 12);
+            this.MainPictureBox.Location = new System.Drawing.Point(12, 98);
             this.MainPictureBox.Name = "MainPictureBox";
-            this.MainPictureBox.Size = new System.Drawing.Size(750, 750);
+            this.MainPictureBox.Size = new System.Drawing.Size(600, 600);
             this.MainPictureBox.TabIndex = 0;
             this.MainPictureBox.TabStop = false;
             this.MainPictureBox.Click += new System.EventHandler(this.MainPictureBox_Click);
             this.MainPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MainPictureBox_Paint);
             // 
+            // LabelPictureBox
+            // 
+            this.LabelPictureBox.Location = new System.Drawing.Point(12, 12);
+            this.LabelPictureBox.Name = "LabelPictureBox";
+            this.LabelPictureBox.Size = new System.Drawing.Size(600, 80);
+            this.LabelPictureBox.TabIndex = 1;
+            this.LabelPictureBox.TabStop = false;
+            this.LabelPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelPictureBox_Paint);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(775, 775);
+            this.ClientSize = new System.Drawing.Size(626, 707);
+            this.Controls.Add(this.LabelPictureBox);
             this.Controls.Add(this.MainPictureBox);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "Mini Game";
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.LabelPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -60,6 +73,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox MainPictureBox;
+        private System.Windows.Forms.PictureBox LabelPictureBox;
     }
 }
 
