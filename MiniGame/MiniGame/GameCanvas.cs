@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace MiniGame
 {
-    public class RenderHost
+    public class GameCanvas
     {
-        public static bool CheckRenderSize(int renderSize, int cellSize)
+        public static bool CheckRenderSize(int renderSize, int size)
         {
             if (renderSize <= 0)
                 throw new ArgumentOutOfRangeException();
 
-            if (cellSize <= 0)
+            if (size <= 0)
                 throw new ArgumentOutOfRangeException();
 
-            return renderSize % cellSize == 0;
+            return renderSize % size == 0;
         }
 
         public int Width
@@ -68,17 +68,7 @@ namespace MiniGame
             }
         }
 
-        public int CellWidth
-        {
-            get { return RenderWidth / Width; }
-        }
-
-        public int CellHeight
-        {
-            get { return RenderHeight / Height; }
-        }
-
-        public RenderHost(int width, int height, int renderWidth, int renderHeight)
+        public GameCanvas(int width, int height, int renderWidth, int renderHeight)
         {
             Width = width;
             Height = height;
@@ -92,13 +82,13 @@ namespace MiniGame
             if (!CheckRenderSize(RenderHeight, Height))
                 throw new ArgumentException("Render height is incompatible.");
 
-            _bitmapHost = new Bitmap(RenderWidth, RenderHeight);
-            _graphicsHost = Graphics.FromImage(_bitmapHost);
+            _bitmapInstance = new Bitmap(RenderWidth, RenderHeight);
+            _graphicsInstane = Graphics.FromImage(_bitmapInstance);
         }
 
         public void Clear()
         {
-            _bitmapHost.MakeTransparent();
+            _bitmapInstance.MakeTransparent();
         }
 
         public void Draw(Image image, int row, int column)
@@ -112,10 +102,13 @@ namespace MiniGame
             if (row < 0 || row >= Height)
                 throw new ArgumentOutOfRangeException();
 
-            var destRect = new Rectangle(column * CellWidth, row * CellHeight, CellWidth, CellHeight);
+            var cellWidth = RenderWidth / Width;
+            var cellHeight = RenderHeight / Height;
+
+            var destRect = new Rectangle(column * cellWidth, row * cellHeight, cellWidth, cellHeight);
             var srcRect = new Rectangle(0, 0, image.Width, image.Height);
 
-            _graphicsHost.DrawImage(image, destRect, srcRect, GraphicsUnit.Pixel);
+            _graphicsInstane.DrawImage(image, destRect, srcRect, GraphicsUnit.Pixel);
         }
 
         public void Render(Graphics graphicsHost)
@@ -123,7 +116,7 @@ namespace MiniGame
             if (graphicsHost == null)
                 throw new ArgumentNullException();
 
-            graphicsHost.DrawImage(_bitmapHost, new Point(0, 0));
+            graphicsHost.DrawImage(_bitmapInstance, 0, 0);
         }
 
         private int _width;
@@ -134,8 +127,8 @@ namespace MiniGame
 
         private int _renderHeight;
 
-        private Bitmap _bitmapHost;
+        private Bitmap _bitmapInstance;
 
-        private Graphics _graphicsHost;
+        private Graphics _graphicsInstane;
     }
 }

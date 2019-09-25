@@ -15,26 +15,22 @@ namespace MiniGame
     {
         public const int GAME_MAP_SIZE = 5;
 
-        public Game Game { get; private set; }
-
-        public RenderHost RenderHost { get; private set; }
+        public GameWrapper GameWrapper { get; private set; }
 
         public MainForm()
         {
             InitializeComponent();
-            Game = new Game(GAME_MAP_SIZE);
-            RenderHost = new RenderHost(Game.Map.Size, Game.Map.Size, MainPictureBox.Width, MainPictureBox.Height);
+
+            GameWrapper = new GameWrapper(new Game(GAME_MAP_SIZE), MainPictureBox.Width, MainPictureBox.Height);
         }
 
         private void MainPictureBox_Paint(object sender, PaintEventArgs e)
         {
-            RenderHost.Clear();
-            RenderHost.Render(e.Graphics);
+            GameWrapper.Render(e.Graphics);
         }
 
         private void MainPictureBox_Click(object sender, EventArgs e)
-        {
-            Game.CheckIfRiddleSolved();
+        {   
             MainPictureBox.Refresh();
         }
     }
