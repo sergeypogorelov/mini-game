@@ -41,8 +41,8 @@
             this.MainPictureBox.Size = new System.Drawing.Size(600, 600);
             this.MainPictureBox.TabIndex = 0;
             this.MainPictureBox.TabStop = false;
-            this.MainPictureBox.Click += new System.EventHandler(this.MainPictureBox_Click);
             this.MainPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MainPictureBox_Paint);
+            this.MainPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainPictureBox_MouseClick);
             // 
             // LabelPictureBox
             // 
@@ -64,6 +64,7 @@
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "Mini Game";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.MainPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LabelPictureBox)).EndInit();
             this.ResumeLayout(false);

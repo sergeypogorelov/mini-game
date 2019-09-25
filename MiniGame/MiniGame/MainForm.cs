@@ -20,7 +20,10 @@ namespace MiniGame
         public MainForm()
         {
             InitializeComponent();
+        }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
             var gameWrapperParams = new GameWrapperParams
             {
                 GameCanvasWidth = MainPictureBox.Width,
@@ -37,9 +40,9 @@ namespace MiniGame
             GameWrapper.RenderGame(e.Graphics);
         }
 
-        private void MainPictureBox_Click(object sender, EventArgs e)
+        private void MainPictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            GameWrapper.Game.CheckIfRiddleSolved();
+            GameWrapper.MarkCellOnMap(new Point { X = e.X, Y = e.Y });
             MainPictureBox.Refresh();
         }
 
@@ -47,5 +50,6 @@ namespace MiniGame
         {
             GameWrapper.RenderLabel(e.Graphics);
         }
+        
     }
 }

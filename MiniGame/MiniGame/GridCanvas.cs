@@ -1,6 +1,8 @@
-﻿using System;
+﻿using MiniGame.Logic;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,8 @@ namespace MiniGame
 {
     public class GridCanvas
     {
+        public const int CELL_BORDER_WIDTH = 3;
+
         public static bool CheckRenderSize(int renderSize, int size)
         {
             if (renderSize <= 0)
@@ -68,6 +72,10 @@ namespace MiniGame
             }
         }
 
+        public int CellWidth { get { return RenderWidth / Width; } }
+
+        public int CellHeight { get { return RenderHeight / Height; } }
+
         public GridCanvas(int width, int height, int renderWidth, int renderHeight)
         {
             Width = width;
@@ -86,26 +94,57 @@ namespace MiniGame
             _graphicsInstane = Graphics.FromImage(_bitmapInstance);
         }
 
+        public bool CheckCoordinate(Coordinate coordinate)
+        {
+            return  coordinate.Column >= 0 && coordinate.Column < Width &&
+                    coordinate.Row >= 0 && coordinate.Row < Height;
+        }
+
+        public bool CheckPoint(Point point)
+        {
+            return  point.X >= 0 && point.X < RenderWidth &&
+                    point.Y >= 0 && point.Y < RenderHeight;
+        }
+
+        public Coordinate ParsePointToCoordinate(Point point)
+        {
+            if (!CheckPoint(point))
+                throw new ArgumentOutOfRangeException();
+
+            var row = point.Y / CellHeight;
+            var column = point.X / CellWidth;
+
+            return new Coordinate { Row = row, Column = column };
+        }
+
         public void Clear()
         {
             _graphicsInstane.Clear(Color.Transparent);
         }
 
-        public void Draw(Image image, int row, int column)
+        public void MarkCell(Coordinate coordinate)
+        {
+            if (!CheckCoordinate(coordinate))
+                throw new ArgumentOutOfRangeException();
+
+            using (var pen = new Pen(Color.White, CELL_BORDER_WIDTH))
+            {
+                pen.DashStyle = DashStyle.Dot;
+
+                var rectangle = new Rectangle(coordinate.Column * CellWidth, coordinate.Row * CellHeight, CellWidth, CellHeight);
+                _graphicsInstane.DrawRectangle(pen, rectangle);
+            }
+        }
+
+        public void Draw(Image image, Coordinate coordinate)
         {
             if (image == null)
                 throw new ArgumentNullException();
 
-            if (column < 0 || column >= Width)
+            if (!CheckCoordinate(coordinate))
                 throw new ArgumentOutOfRangeException();
 
-            if (row < 0 || row >= Height)
-                throw new ArgumentOutOfRangeException();
-
-            var cellWidth = RenderWidth / Width;
-            var cellHeight = RenderHeight / Height;
-
-            var destRect = new Rectangle(column * cellWidth, row * cellHeight, cellWidth, cellHeight);
+            var destRect = new Rectangle(coordinate.Column * CellWidth, coordinate.Row * CellHeight, CellWidth, CellHeight);
             var srcRect = new Rectangle(0, 0, image.Width, image.Height);
 
             _graphicsInstane.DrawImage(image, destRect, srcRect, GraphicsUnit.Pixel);

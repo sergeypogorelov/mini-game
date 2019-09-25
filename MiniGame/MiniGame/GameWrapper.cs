@@ -29,12 +29,24 @@ namespace MiniGame
 
         public GridCanvas LabelCanvas { get; private set; }
 
+        public Coordinate? SelectedCell { get; set; }
+
         public GameWrapper(Game game, GameWrapperParams parameters)
         {
             Game = game ?? throw new ArgumentNullException();
 
             GameCanvas = new GridCanvas(game.Map.Size, game.Map.Size, parameters.GameCanvasWidth, parameters.GameCanvasHeight);
             LabelCanvas = new GridCanvas(game.Map.Size, LABEL_HEIGHT, parameters.LabelCanvasWidth, parameters.LabelCanvasHeight);
+        }
+
+        public void MarkCellOnMap(Point point)
+        {
+            SelectedCell = GameCanvas.ParsePointToCoordinate(point);
+        }
+
+        public void RemoveMarkOnMap()
+        {
+            SelectedCell = null;
         }
 
         public void RenderGame(Graphics graphicsInstance)
@@ -49,8 +61,13 @@ namespace MiniGame
                 for (var column = 0; column < Game.Map.Cells.GetLength(1); column++)
                 {
                     var image = CellAppearance.GetCellImage(Game.Map.Cells[row, column]);
-                    GameCanvas.Draw(image, row, column);
+                    GameCanvas.Draw(image, new Coordinate { Row = row, Column = column });
                 }
+            }
+
+            if (SelectedCell.HasValue)
+            {
+                GameCanvas.MarkCell(SelectedCell.Value);
             }
 
             GameCanvas.Render(graphicsInstance);
@@ -67,7 +84,7 @@ namespace MiniGame
             foreach (var index in indexesOfColumnsWithCards)
             {
                 var image = CellAppearance.GetCellImage(Game.GoalCards[index / 2]);
-                LabelCanvas.Draw(image, 0, index);
+                LabelCanvas.Draw(image, new Coordinate { Row = 0, Column = index });
             }
 
             LabelCanvas.Render(graphicsInstance);
