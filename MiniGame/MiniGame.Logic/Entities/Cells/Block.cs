@@ -2,8 +2,14 @@
 
 namespace MiniGame.Logic.Entities.Cells
 {
+    /// <summary>
+    /// Represents a block on the game map
+    /// </summary>
     public class Block : Cell
     {
+        /// <summary>
+        /// Creates an instance of a block
+        /// </summary>
         public Block()
             :base(CellTypes.Block)
         {

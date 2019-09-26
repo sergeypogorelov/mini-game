@@ -90,19 +90,19 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="images\card-orange.png">
+    <Content Include="Images\card-orange.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\card-red.png">
+    <Content Include="Images\card-red.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\card-yellow.png">
+    <Content Include="Images\card-yellow.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\cell-block.png">
+    <Content Include="Images\cell-block.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\cell-empty.png">
+    <Content Include="Images\cell-empty.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

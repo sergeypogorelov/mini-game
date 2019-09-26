@@ -2,6 +2,9 @@
 
 namespace MiniGame.Logic.Entities.Cells
 {
+    /// <summary>
+    /// Colors of cards on the game map
+    /// </summary>
     public enum CardColors
     {
         Yellow,
@@ -9,10 +12,20 @@ namespace MiniGame.Logic.Entities.Cells
         Red
     }
 
+    /// <summary>
+    /// Represent a card on the game map
+    /// </summary>
     public class Card : Cell
     {
+        /// <summary>
+        /// Min count of colors for cards
+        /// </summary>
         public const int MIN_COUNT_OF_COLORS = 2;
 
+        /// <summary>
+        /// Returns all available card colors
+        /// </summary>
+        /// <returns></returns>
         public static CardColors[] GetAllAvailableColors()
         {
             var result = new CardColors[]
@@ -28,8 +41,15 @@ namespace MiniGame.Logic.Entities.Cells
             return result;
         }
 
+        /// <summary>
+        /// Color of the card
+        /// </summary>
         public CardColors Color { get; private set; }
 
+        /// <summary>
+        /// Creates an instance of a card
+        /// </summary>
+        /// <param name="color">The card color</param>
         public Card(CardColors color)
             :base(CellTypes.Card)
         {
