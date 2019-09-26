@@ -1,14 +1,13 @@
-﻿using MiniGame.Logic.Entities;
-using MiniGame.Logic.Entities.Cells;
+﻿using MiniGame.Logic.Entities.Cells;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MiniGame.Logic
 {
     public class Game
     {
+        public event Action Victory;
+
         public GameMap Map { get; private set; }
 
         public Card[] GoalCards { get; private set; }
@@ -45,6 +44,15 @@ namespace MiniGame.Logic
                 throw new ArgumentOutOfRangeException();
 
             Map = new GameMap(mapSize);
+            Map.SuccessSwap += Map_SuccessSwap;
+        }
+
+        private void Map_SuccessSwap(SuccessSwapEventArgs obj)
+        {
+            if (CheckIfRiddleSolved())
+            {
+                Victory?.Invoke();
+            }
         }
 
         private void InitGoalCards()

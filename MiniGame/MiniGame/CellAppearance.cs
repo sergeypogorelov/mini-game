@@ -3,9 +3,6 @@ using MiniGame.Logic.Entities.Cells;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MiniGame
 {

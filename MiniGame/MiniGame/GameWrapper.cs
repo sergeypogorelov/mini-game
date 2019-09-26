@@ -1,10 +1,8 @@
 ﻿using MiniGame.Logic;
+using MiniGame.Logic.Entities;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MiniGame
 {
@@ -29,7 +27,7 @@ namespace MiniGame
 
         public GridCanvas LabelCanvas { get; private set; }
 
-        public Coordinate? SelectedCell { get; set; }
+        public Coordinate? SelectedCell { get { return _selectedCell; } }
 
         public GameWrapper(Game game, GameWrapperParams parameters)
         {
@@ -39,14 +37,38 @@ namespace MiniGame
             LabelCanvas = new GridCanvas(game.Map.Size, LABEL_HEIGHT, parameters.LabelCanvasWidth, parameters.LabelCanvasHeight);
         }
 
-        public void MarkCellOnMap(Point point)
+        public Cell GetCellFromMap(Point point)
         {
-            SelectedCell = GameCanvas.ParsePointToCoordinate(point);
+            var coordinate = GameCanvas.ParsePointToCoordinate(point);
+
+            if (!Game.Map.CheckIfCoordinateIsValid(coordinate))
+                throw new ArgumentOutOfRangeException();
+
+            return Game.Map[coordinate];
         }
 
-        public void RemoveMarkOnMap()
+        public void MarkCellOnMap(Point point)
         {
-            SelectedCell = null;
+            var coordinate = GameCanvas.ParsePointToCoordinate(point);
+
+            if (!Game.Map.CheckIfCoordinateIsValid(coordinate))
+                throw new ArgumentOutOfRangeException();
+
+            _selectedCell = coordinate;
+        }
+
+        public void RemoveCellMarkFromMap()
+        {
+            _selectedCell = null;
+        }
+
+        public bool SwapSelectedCellOnMap(Point point)
+        {
+            if (!SelectedCell.HasValue)
+                return false;
+
+            var coordinate = GameCanvas.ParsePointToCoordinate(point);
+            return Game.Map.SwapCells(SelectedCell.Value, coordinate);
         }
 
         public void RenderGame(Graphics graphicsInstance)
@@ -89,5 +111,7 @@ namespace MiniGame
 
             LabelCanvas.Render(graphicsInstance);
         }
+
+        private Coordinate? _selectedCell;
     }
 }

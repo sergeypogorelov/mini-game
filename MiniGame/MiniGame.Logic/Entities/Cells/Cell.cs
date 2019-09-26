@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MiniGame.Logic.Entities
+﻿namespace MiniGame.Logic.Entities
 {
     public enum CellTypes
     {

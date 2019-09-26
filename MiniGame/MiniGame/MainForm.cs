@@ -1,12 +1,7 @@
 ﻿using MiniGame.Logic;
+using MiniGame.Logic.Entities;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MiniGame
@@ -14,6 +9,8 @@ namespace MiniGame
     public partial class MainForm : Form
     {
         public const int GAME_MAP_SIZE = 5;
+
+        public const string WINNER_MESSAGE = "Congratulations! You are a winner!";
 
         public GameWrapper GameWrapper { get; private set; }
 
@@ -33,6 +30,7 @@ namespace MiniGame
             };
 
             GameWrapper = new GameWrapper(new Game(GAME_MAP_SIZE), gameWrapperParams);
+            GameWrapper.Game.Victory += Game_Victory;
         }
 
         private void MainPictureBox_Paint(object sender, PaintEventArgs e)
@@ -42,7 +40,22 @@ namespace MiniGame
 
         private void MainPictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            GameWrapper.MarkCellOnMap(new Point { X = e.X, Y = e.Y });
+            var point = new Point { X = e.X, Y = e.Y };
+
+            if (GameWrapper.SelectedCell.HasValue)
+            {
+                GameWrapper.SwapSelectedCellOnMap(point);
+                GameWrapper.RemoveCellMarkFromMap();
+            }
+            else
+            {
+                var cell = GameWrapper.GetCellFromMap(point);
+                if (cell.Type == CellTypes.Card)
+                {
+                    GameWrapper.MarkCellOnMap(point);
+                }
+            }
+            
             MainPictureBox.Refresh();
         }
 
@@ -50,6 +63,16 @@ namespace MiniGame
         {
             GameWrapper.RenderLabel(e.Graphics);
         }
-        
+
+        private void Game_Victory()
+        {
+            GameWrapper.RemoveCellMarkFromMap();
+            MainPictureBox.Refresh();
+
+            MessageBox.Show(WINNER_MESSAGE);
+
+            Close();
+        }
+
     }
 }

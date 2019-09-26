@@ -33,6 +33,13 @@ namespace MiniGame.Logic
         }
     }
 
+    public struct SuccessSwapEventArgs
+    {
+        public Coordinate Coordinate1 { get; set; }
+
+        public Coordinate Coordinate2 { get; set; }
+    }
+
     public class GameMap
     {
         public static readonly int MIN_SIZE;
@@ -79,6 +86,8 @@ namespace MiniGame.Logic
             return cards.ToArray();
         }
 
+        public event Action<SuccessSwapEventArgs> SuccessSwap;
+
         public int Size { get { return Cells.GetLength(0); } }
 
         public Cell[,] Cells { get; private set; }
@@ -122,8 +131,11 @@ namespace MiniGame.Logic
             if (!CheckIfCoordinateIsValid(coordinate1) || !CheckIfCoordinateIsValid(coordinate2))
                 return false;
 
-            var closestHorizontally = Math.Abs(coordinate1.Column - coordinate2.Column) == 1;
-            var closestVertically = Math.Abs(coordinate1.Row - coordinate2.Row) == 1;
+            var dx = Math.Abs(coordinate1.Column - coordinate2.Column);
+            var dy = Math.Abs(coordinate1.Row - coordinate2.Row);
+
+            var closestHorizontally = dx == 1 && dy == 0;
+            var closestVertically = dy == 1 && dx == 0;
 
             return (closestHorizontally || closestVertically) && closestHorizontally != closestVertically;
         }
@@ -145,6 +157,8 @@ namespace MiniGame.Logic
             var temp = this[coordinate1];
             this[coordinate1] = this[coordinate2];
             this[coordinate2] = temp;
+
+            SuccessSwap?.Invoke(new SuccessSwapEventArgs { Coordinate1 = coordinate1, Coordinate2 = coordinate2 });
 
             return true;
         }

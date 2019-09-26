@@ -36,9 +36,9 @@
             // 
             // MainPictureBox
             // 
-            this.MainPictureBox.Location = new System.Drawing.Point(12, 98);
+            this.MainPictureBox.Location = new System.Drawing.Point(12, 118);
             this.MainPictureBox.Name = "MainPictureBox";
-            this.MainPictureBox.Size = new System.Drawing.Size(600, 600);
+            this.MainPictureBox.Size = new System.Drawing.Size(500, 500);
             this.MainPictureBox.TabIndex = 0;
             this.MainPictureBox.TabStop = false;
             this.MainPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.MainPictureBox_Paint);
@@ -48,7 +48,7 @@
             // 
             this.LabelPictureBox.Location = new System.Drawing.Point(12, 12);
             this.LabelPictureBox.Name = "LabelPictureBox";
-            this.LabelPictureBox.Size = new System.Drawing.Size(600, 80);
+            this.LabelPictureBox.Size = new System.Drawing.Size(500, 100);
             this.LabelPictureBox.TabIndex = 1;
             this.LabelPictureBox.TabStop = false;
             this.LabelPictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.LabelPictureBox_Paint);
@@ -57,7 +57,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 707);
+            this.ClientSize = new System.Drawing.Size(526, 632);
             this.Controls.Add(this.LabelPictureBox);
             this.Controls.Add(this.MainPictureBox);
             this.MaximizeBox = false;
